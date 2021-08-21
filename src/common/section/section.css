@@ -1,0 +1,39 @@
+.section{
+    padding: 110px 70px 0;
+    background: #202020;
+  }
+
+.section__title{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin-top: 0;
+    margin-bottom: 23px;
+    
+  }
+  
+  .section__line{
+    background: #DADADA;
+    height: 1px;
+    margin: 0 0;
+    border: none;
+  }
+
+  @media screen and (max-width: 1023px){
+    .section{
+      padding: 90px 50px 0;
+    }
+  }
+  
+  @media screen and (max-width: 767px){
+    .section{
+      padding: 70px 10px 0;
+    }
+    .section__title{
+      font-size: 18px;
+      line-height: 22px;
+      margin-bottom: 28px;
+    }
+  } 

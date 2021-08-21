@@ -1,0 +1,10 @@
+.link{
+    text-decoration: none;
+    /* border-radius: 10px; */
+    transition: box-shadow 1s, color 1s;
+  }
+  
+   .link:hover{
+    color: #b3b3b3;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
