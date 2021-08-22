@@ -1,0 +1,8 @@
+@import  url(../src/common/link/link.css);
+@import  url(../src/common/section/section.css);
+@import  url(../src/common/auth/auth.css);
+
+body {
+  background: #202020;
+}
+
