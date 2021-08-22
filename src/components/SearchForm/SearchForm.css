@@ -54,7 +54,14 @@
     font-size: 18px;
     line-height: 20px;
     color: #8B8B8B;
+    transition: box-shadow 5s linear;
 }
+
+.search__input:focus {
+    box-shadow: 0 0 14px #1c291f;
+    border-radius: 9px;
+    background-color: #272724;
+  }
 
 .search__button{
     height: 34px;
@@ -68,7 +75,13 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+    transition: box-shadow 1s, background-color 1s;
 }
+
+.search__button:hover{
+    background-color: #659ef8;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
 
 .search__verticla-line{
     height: 40px;
