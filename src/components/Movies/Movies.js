@@ -12,8 +12,7 @@ function Main({
     showMore, 
     showMoreHandler, 
     handleShorts, 
-    onCardLike, 
-    onCardDelete
+    onCardLike
     }){
 
     const [isLoading, setLoading] = useState(false);
@@ -34,7 +33,7 @@ function Main({
             {localStorage.getItem('cards') !== null ? 
               isLoading ?
                 <Preloader />  
-                :   succesLoad ? <MoviesCardList cards= {cards} showMore={showMore} isSaved={false} showMoreHandler={showMoreHandler} onCardLike={onCardLike} onCardDelete={onCardDelete}/> 
+                :   succesLoad ? <MoviesCardList cards= {cards} showMore={showMore} isSaved={false} showMoreHandler={showMoreHandler} onCardLike={onCardLike}/> 
                     : <p className="movies__err">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
               : null}
         </main>

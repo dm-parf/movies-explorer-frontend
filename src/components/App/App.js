@@ -90,12 +90,16 @@ function App() {
         resFilter = resFilter.filter(function(card) {
           return card.duration < 40
         });
-      }
+      }      
       const resCut = resFilter.filter(function(item, index, array){return (index < cardsCountValue);})
       setCards(resCut);
       showMoreVisible(Object.keys(resFilter).length, cardsCountValue);
     }
   }
+
+  useEffect(() => {
+    setCards(likeCheck(cards))
+  }, [savedCards])
   
   function cardsCount (screenW){
     let cnt = 4;
@@ -224,7 +228,6 @@ function App() {
   function onCardDelete(cardData){
     MainApi.deleteMovie(cardData._id).then((result) => {
       setSavedCards((state) => state.filter((c) => c._id !== cardData._id));
-
     })
     .catch((err) => {
       console.log(err);
@@ -337,7 +340,6 @@ function App() {
           showMoreHandler ={showMoreHandler}
           handleShorts={handleShorts}
           onCardLike={onCardLike}
-          onCardDelete={onCardDelete}
         />
         <ProtectedRoute 
           path="/saved-movies"
