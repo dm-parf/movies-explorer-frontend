@@ -23,6 +23,9 @@
 .notfound__link{
     margin-top: 184px;
     margin-left: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;

@@ -3,42 +3,33 @@ import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 // import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function MoviesCardList(
-     {cards,
-     isSaved}
-    // onCardLike, 
-    // onCardDelete,
-    // onCardClick,
-    // onEditProfile, 
-    // onAddPlace,
-    // onEditAvatar
-    ) {
-    
- 
-    // const currentUser = React.useContext(CurrentUserContext);    
+function MoviesCardList({cards, isSaved, showMore, showMoreHandler, onCardLike, onCardDelete}
 
-    return (
-        <>
-            <main className="content">
-                <section className="movies">
-                    <ul className="moviescard__list">
-                        {
-                        cards.cards.map((card) => (
-                            <MoviesCard
-                                key={card._id}
-                                card={card}
-                                isSaved = {isSaved}
-                                // onCardClick={onCardClick}
-                                // onCardLike={onCardLike}
-                            />)
-                            )
+    ) {
+            return (
+                <>
+                    <main className="content">
+                        <section className="movies">
+                            { Object.keys(cards).length > 0 ?
+                                <ul className="moviescard__list">
+                                    {cards.map((card) => (
+                                        <MoviesCard
+                                            key= {isSaved ? card._id : card.id }
+                                            card={card}
+                                            isSaved = {isSaved}
+                                            onCardLike={onCardLike}
+                                            onCardDelete={onCardDelete}
+                                        />)
+                                    )}
+                                </ul>
+                                : 
+                                <p className="moviescard__empty">{isSaved ? 'Нет сохраненных фильмов' : 'Ничего не найдено'}</p>
                             }
-                    </ul>
-                    {isSaved ? null : <button className="movies__more">Ещё</button>}
-                </section>
-            </main>
-        </>
-    );
-}
+                            {showMore ? <button onClick={showMoreHandler} className="movies__more">Ещё</button> : null}
+                        </section>
+                    </main>
+                </>
+            );
+        }
 
 export default MoviesCardList;

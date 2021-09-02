@@ -35,7 +35,7 @@
     margin-left: 44px;
 }
 
-.header__exit-zone{
+.header__enter-zone , .header__exit-zone{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -150,6 +150,16 @@
         margin-top: 28px;
     }
 
+    .header__link_type_signup{ 
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .header__link_type_signin{ 
+        font-size: 12px;
+        line-height: 32px;
+    }
+
     .header__link_main{
         display:block;
         margin-top: 159px;
@@ -231,21 +241,21 @@
     .header__exit-zone{
         margin-bottom: 46px;
     }
-    .header__link_signin{
+
+    .header__link_type_signin{
         height: 26px;
         width: 54px;
-        line-height: 26px;
+        font-weight: 500;
         font-size: 10px;
+        line-height: 26px;
         margin-left: 14px;
     }
 
-    .header__link_signin{
-        height: 26px;
-        width: 54px;
-        line-height: 26px;
+    .header__link_type_signup{ 
         font-size: 10px;
-        margin-left: 14px;
+        line-height: 16px;
     }
+
     .header__email{
         font-size: 10px;
         line-height: 16px;

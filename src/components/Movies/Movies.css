@@ -1,3 +1,8 @@
 .movies-section{
     background: #202020;
 }
+
+.movies__err{
+    color: rgb(243, 115, 115);
+    text-align: center;
+}
