@@ -11,9 +11,7 @@ function FilterCheckbox({handleShorts}){
   };
 
     return (
-        <>
         <div className={isActive ? 'filter-btn switch-on': 'filter-btn'} onClick={toggleClass}></div>
-    </>
     );
 }
 

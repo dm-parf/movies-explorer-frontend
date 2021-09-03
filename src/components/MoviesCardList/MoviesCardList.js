@@ -7,7 +7,6 @@ function MoviesCardList({cards, isSaved, showMore, showMoreHandler, onCardLike, 
 
     ) {
             return (
-                <>
                     <main className="content">
                         <section className="movies">
                             { Object.keys(cards).length > 0 ?
@@ -28,7 +27,6 @@ function MoviesCardList({cards, isSaved, showMore, showMoreHandler, onCardLike, 
                             {showMore ? <button onClick={showMoreHandler} className="movies__more">Ещё</button> : null}
                         </section>
                     </main>
-                </>
             );
         }
 

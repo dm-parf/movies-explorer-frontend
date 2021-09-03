@@ -16,7 +16,6 @@ function Promo(){
     }
 
     return (
-    <>
         <section className = "promo">
             <div className="promo__zone">
                 <h1 className="promo__title">Учебный проект студента факультета Веб&nbsp;-&nbsp;разработки.</h1>
@@ -25,7 +24,6 @@ function Promo(){
             </div>
             <img src = {logo} alt="Логотип проекта" className="promo__logo"/>
         </section>
-    </>
     );
 }
 

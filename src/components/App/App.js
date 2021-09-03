@@ -19,7 +19,20 @@ import React, { useState, useEffect } from 'react';
 import {Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from "../ProtectedRoute";
-
+const { 
+    shortFilm,
+    screenS,
+    cardsCountS,
+    CardsInRowS,
+    screenM,
+    cardsCountM,
+    CardsInRowM,
+    screenL,
+    cardsCountL,
+    CardsInRowL,
+    cardsCountXL,
+    CardsInRowXL
+  } = require('../../utils/constants');
 
 function App() {
 
@@ -71,7 +84,7 @@ function App() {
             }
           
             function actualResizeHandler() {
-              loadfromStorage();
+             loadfromStorage();
             }
           }());
   }, [])
@@ -81,20 +94,10 @@ function App() {
   }, [shorts])
 
   function loadfromStorage(){
-    if(localStorage.getItem('cards') !== null)
-    {
-      let cardsCountValue = cardsCount(window.innerWidth);
-      setCardsCnt(cardsCountValue);
-      let resFilter = JSON.parse(localStorage.getItem("cards"));
-      if(shorts) {
-        resFilter = resFilter.filter(function(card) {
-          return card.duration < 40
-        });
-      }      
-      const resCut = resFilter.filter(function(item, index, array){return (index < cardsCountValue);})
-      setCards(resCut);
-      showMoreVisible(Object.keys(resFilter).length, cardsCountValue);
-    }
+    if((localStorage.getItem('cards') !== null) && (localStorage.getItem('searchParam') !== null))
+      {
+        fillMovies(JSON.parse(localStorage.getItem("cards")), localStorage.getItem("searchParam"), false);
+      }
   }
 
   useEffect(() => {
@@ -102,22 +105,22 @@ function App() {
   }, [savedCards])
   
   function cardsCount (screenW){
-    let cnt = 4;
-    if (screenW < 649) {
-      cnt = 5;
-      setCardsInRow(1);
+    let cnt = cardsCountXL;
+    if (screenW < screenS) {
+      cnt = cardsCountS;
+      setCardsInRow(CardsInRowS);
     }
-    else if (screenW >= 649 && screenW < 1024) {
-      cnt = 8;
-      setCardsInRow(2);
+    else if (screenW >= screenS && screenW < screenM) {
+      cnt = cardsCountM;
+      setCardsInRow(CardsInRowM);
     }
-    else if (screenW >= 1024 && screenW < 1280) {
-      cnt = 12;
-      setCardsInRow(3);
+    else if (screenW >= screenM && screenW < screenL) {
+      cnt = cardsCountL;
+      setCardsInRow(CardsInRowL);
     }
-    else if (screenW >= 1280) {
-      cnt = 4;
-      setCardsInRow(4);
+    else if (screenW >= screenL) {
+      cnt = cardsCountXL;
+      setCardsInRow(CardsInRowXL);
     }
     return cnt;
   }
@@ -142,42 +145,52 @@ function App() {
   }
 
   function getMovies(searchParam, screenW) {
+    localStorage.setItem("searchParam", searchParam);
     return new Promise((resolve, reject) => {
-     
-      MoviesApi.getMovies().then((res) => {
-        let resFilter = res.filter(function(card) {
-          return card.nameRU.includes(searchParam)
-        });
-        if(shorts) {
-          resFilter = resFilter.filter(function(card) {
-            return card.duration < 40
+      if(!localStorage.getItem('cards'))
+        {
+          MoviesApi.getMovies().then((res) => {
+            localStorage.setItem("cards", JSON.stringify(res));
+            fillMovies(res, searchParam, false);
+            resolve('ok');
+          })
+          .catch((err) => {
+            setSucces(false);
+            console.log(err)
+            setinfoTooltipResult(err);
+            setInfoTooltipOpen(true);
           });
         }
-        resFilter = likeCheck(resFilter);
-        localStorage.setItem("cards", JSON.stringify(resFilter));
-        let cardsCountValue = cardsCount(screenW);
-        setCardsCnt(cardsCountValue);
-        const resCut = resFilter.filter(function(item, index, array){return (index < cardsCountValue);})
-        setCards(resCut);
-        showMoreVisible(Object.keys(resFilter).length, cardsCountValue);
-        resolve('ok');
-      })
-      .catch((err) => {
-        setSucces(false);
-        console.log(err)
-        setinfoTooltipResult(err);
-        setInfoTooltipOpen(true);
-      });
+        else {
+          fillMovies(JSON.parse(localStorage.getItem("cards")), searchParam, false);
+          resolve('ok');
+        } 
     })
   }
 
-  function showMoreHandler(){
-    const resFilter = JSON.parse(localStorage.getItem("cards"));
-    let cardsCntMore = cardsCnt + cardsInRow;
-    setCardsCnt(cardsCntMore);
-    const resCut = resFilter.filter(function(item, index, array){return (index < cardsCntMore);})
+  function fillMovies(cards, searchParam, rowsAdd){
+    let resFilter = cards.filter(function(card) {
+      return card.nameRU.includes(searchParam)
+    });
+    if(shorts) {
+      resFilter = resFilter.filter(function(card) {
+        return card.duration < shortFilm
+      });
+    }
+    resFilter = likeCheck(resFilter);
+    let cardsCountValue;
+    rowsAdd ?
+     cardsCountValue = cardsCnt + cardsInRow
+    :
+    cardsCountValue = cardsCount(window.innerWidth);
+    setCardsCnt(cardsCountValue);
+    const resCut = resFilter.filter(function(item, index, array){return (index < cardsCountValue);})
     setCards(resCut);
-    showMoreVisible(Object.keys(resFilter).length, cardsCntMore);
+    showMoreVisible(Object.keys(resFilter).length, cardsCountValue);
+  }
+
+  function showMoreHandler(){
+    fillMovies(JSON.parse(localStorage.getItem("cards")), localStorage.getItem("searchParam"), true);
   }
 
   function handleShorts(active){
@@ -186,7 +199,7 @@ function App() {
 
   function getSavedMovies(me){
     MainApi.getMovies().then((res) => {
-      let resSavedFilter = res.filter(function(card) {
+      const resSavedFilter = res.filter(function(card) {
         return card.owner === me._id
       });
       setSavedCards(resSavedFilter);
@@ -237,15 +250,19 @@ function App() {
   }
 
   function filterSaved(searchParam){
-    let resFilter = savedCards.filter(function(card) {
-      return card.nameRU.includes(searchParam)
-    });
-    if(shorts) {
-      resFilter = resFilter.filter(function(card) {
-        return card.duration < 40
-      });
-    }
-    setSavedCards(resFilter);
+    if((localStorage.getItem('savedCards') !== null))
+      {
+        let resFilter = JSON.parse(localStorage.getItem("savedCards"))
+        resFilter = resFilter.filter(function(card) {
+          return card.nameRU.includes(searchParam)
+        });
+        if(shorts) {
+          resFilter = resFilter.filter(function(card) {
+            return card.duration < shortFilm
+          });
+        }
+        setSavedCards(resFilter);
+      }
   }
 
   function handleRegister(name, password, email){
@@ -298,6 +315,7 @@ function App() {
     setLoggedIn(false);
     localStorage.removeItem('cards');
     localStorage.removeItem('savedCards');
+    localStorage.removeItem("searchParam")
     history.push('/');
   }
 
@@ -346,7 +364,6 @@ function App() {
           loggedIn={loggedIn}
           component={SavedMovies}
           cards = {savedCards}
-          setCards = {setSavedCards}
           filterSaved = {filterSaved}
           handleShorts={handleShorts}
           onCardDelete={onCardDelete}

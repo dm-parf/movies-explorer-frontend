@@ -3,7 +3,6 @@ import avatar from '../../images/dev-photo-dmitriy.jpg';
 
 function AboutMe(){
     return (
-    <>
         <section className = "section">
             <h2 className="section__title">Студент</h2>
             <hr className="section__line"></hr>
@@ -36,7 +35,6 @@ function AboutMe(){
                 <img src = {avatar} alt="Аватар" className="aboutme__logo"/>
             </div>
         </section>
-    </>
     );
 }
 

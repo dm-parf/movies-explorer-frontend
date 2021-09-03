@@ -3,7 +3,6 @@ import './Footer.css';
 function Footer(){
     const currentYear = new Date().getFullYear();
     return (
-    <>
         <section className = "section footer">
             <h2 className="footer__subtitle">Учебный проект Яндекс.Практикум х BeatFilm.</h2>
             <hr className="section__line"></hr>
@@ -40,7 +39,6 @@ function Footer(){
                 </ul>
             </div>
         </section>
-    </>
     );
 }
 

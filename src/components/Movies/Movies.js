@@ -27,7 +27,6 @@ function Main({
     }
 
     return (
-        <>
         <main className="movies-section">
             <SearchForm onSubmitSearch={onSubmitSearch} handleShorts ={handleShorts}/>
             {localStorage.getItem('cards') !== null ? 
@@ -37,7 +36,6 @@ function Main({
                     : <p className="movies__err">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</p>
               : null}
         </main>
-    </>
     );
 
 }

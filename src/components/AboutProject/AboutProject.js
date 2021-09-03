@@ -2,7 +2,6 @@ import './AboutProject.css';
 
 function AboutProject(){
     return (
-    <>
         <section id = "aboutProject" className = "section">
             <h2 className="section__title">О проекте</h2>
             <hr className="section__line"></hr>
@@ -23,7 +22,6 @@ function AboutProject(){
                 
             </div>
         </section>
-    </>
     );
 }
 

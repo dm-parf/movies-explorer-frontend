@@ -30,7 +30,6 @@ function Profile({onUpdateUser, onSignOut}){
 
 
     return (
-        <>
         <div className="auth">
           <p className="profile__header">Привет, {currentUser.name}</p>
           <form onSubmit={locHandleSubmit} className="auth__form">
@@ -68,7 +67,6 @@ function Profile({onUpdateUser, onSignOut}){
             <button onClick={onSignOut} className="profile__exit">Выйти из аккаунта</button>
           </form>
         </div>
-    </>
     );
 }
 
