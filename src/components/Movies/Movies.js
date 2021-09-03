@@ -28,7 +28,7 @@ function Main({
 
     return (
         <main className="movies-section">
-            <SearchForm onSubmitSearch={onSubmitSearch} handleShorts ={handleShorts}/>
+            <SearchForm isLoading = {isLoading} onSubmitSearch={onSubmitSearch} handleShorts ={handleShorts}/>
             {localStorage.getItem('cards') !== null ? 
               isLoading ?
                 <Preloader />  

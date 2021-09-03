@@ -11,7 +11,7 @@ function SavedMovies({cards, filterSaved, handleShorts, onCardDelete}){
 
     return (
         <main className="movies-section">
-        <SearchForm onSubmitSearch={filterSaved} handleShorts ={handleShorts}/>
+        <SearchForm isLoading ={false} onSubmitSearch={filterSaved} handleShorts ={handleShorts}/>
             <MoviesCardList cards= {cards} isSaved={true} onCardDelete={onCardDelete}/>
         </main>
     );

@@ -63,6 +63,10 @@
     background-color: #272724;
   }
 
+.search__input:disabled {
+    background-color: #292929;
+  }
+
 .search__button{
     height: 34px;
     width: 34px;
@@ -81,6 +85,10 @@
 .search__button:hover{
     background-color: #659ef8;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+
+.search__button:disabled{
+    background-color: #7e7e7e;
   }
 
 .search__verticla-line{
