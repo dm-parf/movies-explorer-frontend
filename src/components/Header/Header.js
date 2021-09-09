@@ -1,28 +1,16 @@
 import './Header.css';
-import {React, useState, useEffect} from 'react';
-import { Link, useHistory} from 'react-router-dom';
+import {React, useContext} from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/header-logo.svg';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-
-function Header({email, loggedIn, isActive, toggleClass}){
-
-    email = 'test@ya.ru';
-    const history = useHistory();
-    const [locationUrl, setLocationUrl] = useState('sign-in');
-
-    useEffect(() => {
-        history.listen((location) => {
-          setLocationUrl(location.pathname);
-      })
-      }, [history])
-
-    const logged = loggedIn ? "header_dark" : "";
+function Header({isActive, toggleClass}){
+    const location = useLocation();
+    const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+    const logged = location.pathname !== `/` ? "header_dark" : "";
     const underline = (realLocation) => {
-        return locationUrl ===  realLocation ? "header__link_underline" : "";
+        return location.pathname ===  realLocation ? "header__link_underline" : "";
      }
-        // page.classList.toggle("page_lock");
-        // iconMenu.classList.toggle("header__menu-icon_active");
-        // headerMenu.classList.toggle("header__menu_active");
 
     return (
         <header className={`header ${logged}`}>
@@ -31,7 +19,7 @@ function Header({email, loggedIn, isActive, toggleClass}){
             </Link>
             <div className="header__nav">
                 {
-                loggedIn
+                Object.keys(currentUser).length !== 0
                 ?
                 <div className= "header__buttons-zone">
                     <div className={isActive ? 'header__menu-icon header__menu-icon_active': 'header__menu-icon'} onClick={toggleClass}>
@@ -44,14 +32,14 @@ function Header({email, loggedIn, isActive, toggleClass}){
                             <Link to="saved-movies" onClick={toggleClass} className={`link header__link  header__link-movies header__link_type_saved ${underline(`/saved-movies`)}`}>Сохраненные фильмы</Link>
                         </div>
                         <div className= "header__exit-zone">
-                            <p className= "header__email">{email}</p>
+                            <p className= "header__email">{currentUser.email}</p>
                             <Link to="profile" onClick={toggleClass} className="header__profile"></Link> 
                         </div>
                     </div>
                 </div>
                 :
-                <div className= "header__exit-zone">
-                    <Link to="signup" className="link header__link">Регистрация</Link> 
+                <div className= "header__enter-zone">
+                    <Link to="signup" className="link header__link header__link_type_signup">Регистрация</Link> 
                     <Link to="signin" className="link header__link header__link_type_signin">Войти</Link>
                 </div>              
                 }

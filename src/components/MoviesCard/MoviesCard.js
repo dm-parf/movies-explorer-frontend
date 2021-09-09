@@ -1,48 +1,40 @@
 import './MoviesCard.css';
 import React from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+const moviesImgUrl = process.env.REACT_APP_MOVIES_IMG_URL;
 
-function MoviesCard({card, isSaved, onCardClick, onCardLike,onCardDelete}) {
+function MoviesCard({card, isSaved,  onCardLike, onCardDelete}) {
 
-    function handleClick() {
-       onCardClick(card.link,card.name);
-      }
     function handleLikeClick() {
         onCardLike(card);
        }
     function handleDeleteClick() {
         onCardDelete(card);
        }
-    const currentUser = React.useContext(CurrentUserContext);
-
-    const isMyLike =  card.likes.some(elem => elem === currentUser._id)
 
     function pad2(num) {
         var s = num.toString();
         return (s.length < 2) ? "0" + s : s;
     }
     
-    function toHours(seconds)
+    function toHours()
     {
-        let m = Math.floor(card.duration / 60);
-        const h = Math.floor(m / 60);
-        m = m % 60;
+        const h = Math.floor(card.duration / 60);
+        let m = card.duration  % 60;
         return  pad2(h) + "ч" + pad2(m) + "м";
     }
 
     return (
         <li className="movies__block">
-            <img onClick = {handleClick} className="movies__image" src={card.link} alt={card.name}/>
+            <img onClick = {event =>  window.open(card.trailerLink, '_blank' )} className="movies__image" src={isSaved ? card.image :  moviesImgUrl + card.image.url} alt={card.nameEN}/>
             <div className="movies__label">
                 <div className="movies__info-group">
-                    <h2 className="movies__name">{card.name}</h2>
+                    <h2 className="movies__name">{card.nameRU}</h2>
                     {!isSaved 
                         ? 
-                        <button onClick = {handleLikeClick} className={!isMyLike ? "movies__button" : "movies__button movies__button_type_active"} type="button"></button> 
+                        <button onClick = {handleLikeClick} className={card.liked ? "movies__button movies__button_type_active" : "movies__button"} type="button"></button> 
                         :
                         <div onClick = {handleDeleteClick} className="movies__button_type_delete" type="button"></div> 
-                    }
-                    
+                    }  
                 </div>
                 <p className="movies__duration">{toHours(card.duration)}</p>
             </div>

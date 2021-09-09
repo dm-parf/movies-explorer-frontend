@@ -8,7 +8,6 @@ import Portfolio from '../Portfolio/Portfolio';
 
 function Main(){
     return (
-        <>
         <main className="content">
             <Promo />
             <AboutProject />
@@ -16,7 +15,6 @@ function Main(){
             <AboutMe />
             <Portfolio />
         </main>
-    </>
     );
 }
 

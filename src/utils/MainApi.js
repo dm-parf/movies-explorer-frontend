@@ -1,7 +1,8 @@
+const moviesImgUrl = process.env.REACT_APP_MOVIES_IMG_URL;
+
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
   }
 
   checkResponse(res) {
@@ -11,8 +12,8 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
+  getMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
       credentials: 'include',
     })
       .then(res => this.checkResponse(res))
@@ -34,53 +35,42 @@ class Api {
       },
       body: JSON.stringify({
         name: data.name,
-        about: data.about
+        email: data.email
       })
     })
       .then(res => this.checkResponse(res))
   }
 
-  addCard(data) {
-    return fetch(`${this._baseUrl}/cards`, {
+  createMovie(data) {
+    return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: data["name"],
-        link: data["url"]
+        
+          country: data.country,
+          director: data.director,
+          duration: data.duration,
+          year: data.year,
+          description: data.description,
+          image: moviesImgUrl + data.image.url,
+          trailer: data.trailerLink,
+          thumbnail: moviesImgUrl + data.image.formats.thumbnail.url,
+          movieId: data.id,
+          nameRU: data.nameRU,
+          nameEN: data.nameEN
+
       })
     })
       .then(res => this.checkResponse(res))
   }
 
-  removeCard(id) {
-    return fetch(`${this._baseUrl}/cards/${id}`, {
+  deleteMovie(id) {
+    return fetch(`${this._baseUrl}/movies/${id}`, {
       method: 'DELETE',
       credentials: 'include',
-    })
-      .then(res => this.checkResponse(res))
-  }
-
-  toggleLike(id, isLiked) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes/`, {
-      method: isLiked ? 'DELETE' : 'PUT',
-      credentials: 'include',
-    })
-      .then(res => this.checkResponse(res))
-  }
-
-  changeAvatar(url) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        avatar: url,
-      })
     })
       .then(res => this.checkResponse(res))
   }

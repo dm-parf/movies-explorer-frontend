@@ -5,13 +5,23 @@ import './InfoTooltip.css';
 
 function InfoTooltip({isOpen,result, onClose}) {
     const opened = isOpen ? "popup_opened" : "";
-    const title = result === 'success' ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.';
+    let title;
+    switch (result) {
+        case 'success':
+          title = 'Вы успешно зарегистрировались!';
+          break;
+        case 'updated':
+          title = 'Данные пользователя обновлены.';
+          break;
+        default:
+            title = 'Что-то пошло не так! ' + result 
+      }
 
     return (
         <section className={`popup ${opened}`}>
             <form className="popup__container" name="popup-tooltip">
                 <button className="popup__close" onClick = {onClose} type="button"></button>
-                <img className="popup__image" src={result === 'success' ? success : error} alt="info"/>
+                <img className="popup__image" src={result === 'success' || result === 'updated' ? success : error} alt="info"/>
                 <h2 className="popup__header">{title}</h2>
             </form>
         </section>
